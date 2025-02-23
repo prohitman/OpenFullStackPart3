@@ -55,7 +55,7 @@ const generateId = () => {
   return lod.random(1, 10000, false)
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   Person.find({ name: body.name }).then(result => {
@@ -69,18 +69,12 @@ app.post('/api/persons', (request, response) => {
 
       newPerson.save().then(savedPerson => {
         response.json(savedPerson);
-      }).catch(err => {
-        console.log('Error saving data:', err.message);
-        response.status(500).json({ error: 'Failed to save data' });
-      });
+      }).catch(err => next(err));
     }
-  }).catch(err => {
-    console.log('Error checking for duplicates:', err.message);
-    response.status(500).json({ error: 'Failed to check for duplicates' });
-  });
+  }).catch(err => next(err));
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
     if (person) {
       response.json(person)
