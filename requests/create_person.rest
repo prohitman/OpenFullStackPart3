@@ -1,7 +1,7 @@
-POST http://localhost:3001/api/persons
+POST https://render-test-server-ok1m.onrender.com/api/persons
 Content-Type: application/json
 
 {
-  "name": "Test noii",
+  "name": "Test noibi",
   "number": "22-13-232455"
 }
